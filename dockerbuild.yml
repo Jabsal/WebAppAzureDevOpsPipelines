@@ -1,0 +1,22 @@
+# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+pool:
+ vmImage: windows-latest
+
+resources:
+- repo: self
+
+variables:
+  dockerId: jabsal
+  imageName: ourdockerimage
+
+steps:
+- script: |
+    docker build . -t $(dockerId)/$(imageName)  
+    docker login --username "$(dockerId)" --password "$(dockerPassword)"
+    docker push $(dockerId)/$(imageName)
